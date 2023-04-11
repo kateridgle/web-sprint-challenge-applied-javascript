@@ -22,33 +22,41 @@ const Card = (article) => {
 
   const cardDiv = document.createElement('div');
   cardDiv.classList.add('card');
+
   const headlineDiv = document.createElement('div');
   headlineDiv.classList.add('headline');
   headlineDiv.textContent = article.headline;
+
   const authorDiv = document.createElement('div');
   authorDiv.classList.add('author');
+
   const imageDiv = document.createElement('div');
   imageDiv.classList.add('img-container');
-  imageDiv.src = article.authorPhoto;
+
+  const image = document.createElement('img');
+  image.src = article.authorPhoto;
+
   const authorSpan = document.createElement('span');
   authorSpan.textContent =`By ${article.authorName}`;
 
   cardDiv.appendChild(headlineDiv);
   cardDiv.appendChild(authorDiv);
-  cardDiv.appendChild(imageDiv);
-  cardDiv.appendChild(authorSpan);
+  authorDiv.appendChild(imageDiv);
+  imageDiv.appendChild(image);
+  authorDiv.appendChild(authorSpan);
   
-
   return cardDiv;
 }
 
 const cardAppender = (selector) => {
 axios.get('http://localhost:5001/api/articles').then(res => {
 // console.log(res);
-  for (const articles in res.data.articles){
-    for (const article of articles){
-    document.querySelector(selector).appendChild(Card(article));
-    // console.log(article);
+  for (const article in res.data.articles){
+    res.data.articles[article].forEach(art => {
+      document.querySelector(selector).appendChild(Card(art)); 
+    });{
+    
+    // console.log(res.article);
     
     }
   }
